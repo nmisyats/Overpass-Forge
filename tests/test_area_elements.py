@@ -25,3 +25,7 @@ def test_area_ways(paris_area: tuple[Areas, VariableManager]):
 def test_area_realtions(paris_area: tuple[Areas, VariableManager]):
     a, vars = paris_area
     assert a.relations()._compile(vars) == "rel(area.a);"
+
+def test_aera_outline(paris_area: tuple[Areas, VariableManager]):
+    a, vars = paris_area
+    assert a.outline()._compile(vars) == "nwr(pivot.a);"

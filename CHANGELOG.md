@@ -5,6 +5,7 @@
 ### Added
 
 - Explicit listing of symbols imported with `import *`.
+- `outline` method in `Areas`.
 
 ### Changed
 

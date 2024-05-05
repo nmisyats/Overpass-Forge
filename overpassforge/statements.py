@@ -10,6 +10,7 @@ from .filters import (
     Intersect,
     Around,
     Area,
+    Pivot
 )
 from typing import Iterable
 
@@ -188,6 +189,10 @@ class Areas(Elements):
     def relations(self, *filters: Filter) -> Relations:
         """Returns the relations within the areas."""
         return Relations(filters=[Area(self), *filters])
+    
+    def outline(self) -> Elements:
+        """Returns the elements that are part of the outline of the areas."""
+        return Elements(filters=[Pivot(self)])
 
 
 
