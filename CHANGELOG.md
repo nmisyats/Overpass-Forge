@@ -4,12 +4,16 @@
 
 ### Added
 
-- Explicit listing of symbols imported with `import *`
+- Explicit listing of symbols imported with `import *`.
 
 ### Changed
 
 - Beautification of compiled query now specified as a compile option
-  rather than separate function
+  rather than separate function.
+
+### Fixed
+
+- Convert iterable lats/lons into list members in `Polygon` filter.
 
 
 ## 0.4.3 (2023-09-01)
