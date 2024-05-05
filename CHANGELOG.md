@@ -1,5 +1,17 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+- Explicit listing of symbols imported with `import *`
+
+### Changed
+
+- Beautification of compiled query now specified as a compile option
+  rather than separate function
+
+
 ## 0.4.3 (2023-09-01)
 
 ### Added
