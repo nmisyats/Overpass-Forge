@@ -78,14 +78,14 @@ class RawStatement(Statement):
                 raise UnexpectedCompilationError("All inserted sets must use variables.")
             var_names[name] = vars[stmt]
         compiled = self._raw
-        if self._hash_output:
+        if self._has_output:
             compiled = compiled.replace("{:out_var}", vars.get(self) or "_")
         elif vars.is_named(self):
             raise UnexpectedCompilationError("No output variable specified.")
         return compiled.format(**var_names)
     
     @property
-    def _hash_output(self):
+    def _has_output(self):
         return "{:out_var}" in self._raw
 
     @property
