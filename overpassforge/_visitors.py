@@ -101,7 +101,7 @@ class DependencyRetriever(Visitor):
                         self.deps[stmt] = Dependency(stmt, 0, True)
 
 
-class DependencySimplifier(Visitor):
+class FilterChainSimplifier(Visitor):
     """
     Simplifies chained filter dependencies. For example:
     ```text

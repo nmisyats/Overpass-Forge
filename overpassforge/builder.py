@@ -4,7 +4,7 @@ from ._visitors import traverse_statement as _traverse
 from ._visitors import CycleDetector as _CycleDetector
 from ._visitors import Compiler as _Compiler
 from ._visitors import DependencyRetriever as _DependencyRetriever
-from ._visitors import DependencySimplifier as _DependencySimplifier
+from ._visitors import FilterChainSimplifier as _FilterChainSimplifier
 from ._visitors import CombinationOptimizer as _CombinationOptimizer
 from .base import DATE_FORMAT
 from .errors import InvalidQuerySettings
@@ -103,7 +103,7 @@ def build(statement: Statement, settings: Settings | None = None, beautify: bool
     _traverse(statement, _CombinationOptimizer())
     dependencies = _DependencyRetriever()
     _traverse(statement, dependencies)
-    _traverse(statement, _DependencySimplifier(dependencies.deps))
+    _traverse(statement, _FilterChainSimplifier(dependencies.deps))
 
     compiler = _Compiler(statement, dependencies.deps, beautify)
     _traverse(statement, compiler)
