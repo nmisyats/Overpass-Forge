@@ -3,6 +3,17 @@ from typing import TYPE_CHECKING, Optional
 if TYPE_CHECKING:
     from .base import Statement
 
+
+__all__ = [
+    "CompilationError",
+    "CircularDependencyError",
+    "UnexpectedCompilationError",
+    "InvalidFilterAttributes",
+    "InvalidStatementAttributes",
+    "InvalidQuerySettings"
+]
+
+
 class CompilationError(Exception):
     """Raised when an error is detected when building a statement.
     

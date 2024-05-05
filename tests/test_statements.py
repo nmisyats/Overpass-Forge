@@ -2,6 +2,7 @@ from overpassforge.statements import RawStatement, Elements, Nodes, Ways, Relati
 from overpassforge._variables import VariableManager
 from overpassforge.filters import *
 from overpassforge.errors import UnexpectedCompilationError
+from datetime import datetime
 import pytest
 
 def test_elements_statement(no_vars):
