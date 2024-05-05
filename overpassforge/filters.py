@@ -373,8 +373,8 @@ class Polygon(Filter):
             lons: Longitudes of the points describing the polygon.
         """
         super().__init__()
-        self.lats = lats
-        self.lons = lons
+        self.lats = list(lats)
+        self.lons = list(lons)
     
     def _compile(self, vars: _VariableManager) -> str:
         latlons = []
