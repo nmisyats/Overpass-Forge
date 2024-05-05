@@ -30,8 +30,8 @@ nodes = Nodes(around=(bus_stops, 100.0)).where(amenity="cinema")
 result = ways + nodes
 result.out("meta")
 
-query = build(result)
-print(beautify(query))
+query = build(result, beautify=True)
+print(query)
 ```
 
 Output:
@@ -90,7 +90,8 @@ List of currently implemented features, based on the [Overpass QL wiki](https://
 ```cmd
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
+pip install -r requirements.txt
+pip install -e .
 ```
 
 #### Linux
@@ -98,7 +99,8 @@ python -m pip install -r requirements.txt
 ```cmd
 python -m venv .venv
 source .venv/bin/activate
-python -m pip install -r requirements.txt
+pip install -r requirements.txt
+pip install -e .
 ```
 
 ### Unit tests
@@ -106,5 +108,5 @@ python -m pip install -r requirements.txt
 Run all the tests with:
 
 ```cmd
-python -m pytest ./tests
+pytest
 ```

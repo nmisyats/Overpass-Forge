@@ -76,13 +76,14 @@ class Settings:
 
 
 
-def build(statement: Statement, settings: Settings | None = None) -> str:
+def build(statement: Statement, settings: Settings | None = None, beautify: bool = False) -> str:
     """Builds the Overpass query string of the given statement, with
     the optional global settings.
 
     Args:
         statement: The statement to compile.
         settings: Global query settings to append at the top of the generated query.
+        beautify: If `True`, generates a more readable query (indentations, line breaks...)
     
     Returns:
         The compiled Overpass query.
@@ -100,44 +101,10 @@ def build(statement: Statement, settings: Settings | None = None) -> str:
     _traverse(statement, dependencies)
     _traverse(statement, _DependencySimplifier(dependencies.deps))
 
-    compiler = _Compiler(statement, dependencies.deps)
+    compiler = _Compiler(statement, dependencies.deps, beautify)
     _traverse(statement, compiler)
 
     core_query = "\n".join(compiler.sequence)
     if settings is not None:
         return f"{settings._compile()}\n{core_query}"
     return core_query
-
-def beautify(query: str) -> str:
-    """
-    Beautifies a compiled query string (i.e. adds indentation, line breaks...)
-    """
-    query, _ = re.subn(r"\(\(", "(\n(\n", query)
-    query, _ = re.subn(r"(\n\(|^\()", "\n(\n", query)
-    query, _ = re.subn(r"\n\n", "\n", query)
-    query, _ = re.subn(r"\)\;", "\n);", query)
-    query, _ = re.subn(r"\)\-\>", "\n)->", query)
-    query, _ = re.subn(r"\; ", ";\n", query)
-
-    indented = ""
-    indent = 0
-    i = 0
-    while i < len(query):
-        next_one = query[i]
-        next_two = query[i:min(i+2,len(query))]
-        if next_two == "(\n":
-            indent += 1
-            indented += "(\n" + "  " * indent
-            i += 2
-        elif next_two == "\n)":
-            indent -= 1
-            indented += "\n" + "  " * indent + ")"
-            i += 2
-        elif next_one == "\n":
-            indented += "\n" + "  " * indent
-            i += 1
-        else:
-            indented += query[i]
-            i += 1
-    
-    return indented

@@ -1,5 +1,5 @@
 from overpassforge import (
-    Areas, Nodes, Ways, Union, Around, beautify, build, Settings
+    Areas, Nodes, Ways, Union, Around, build, Settings
 )
 
 paris = Areas(name="Paris")
@@ -18,5 +18,5 @@ result = Union(
 )
 result.out("meta")
 
-query = build(result, Settings(out="json", timeout=10))
-print(beautify(query))
+query = build(result, Settings(out="json", timeout=10), True)
+print(query)

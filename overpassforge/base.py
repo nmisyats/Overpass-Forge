@@ -81,6 +81,9 @@ class Statement:
         """
         raise NotImplementedError("Must be implemented in subclass.")
     
+    def _compile_lines(self, vars: _VariableManager, indent: int) -> list[str]:
+        return [self._compile(vars)]
+    
     def __repr__(self) -> str:
         info = self.label if self.label else id(self)
         return f"<{self.__class__.__name__} \'{info}\'>"

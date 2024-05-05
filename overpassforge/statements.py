@@ -211,13 +211,20 @@ class Union(Combination):
         return [*self.statements]
     
     def _compile(self, vars: _VariableManager) -> str:
+        ls = self._compile_lines(vars)
+        return f"{ls[0]}{' '.join(ls[1:-1])}{ls[-1]}"
+
+    def _compile_lines(self, vars: _VariableManager, indent: int = 0) -> list[str]:
         substmts = []
         for stmt in self.statements:
             substmts.append(vars.get_or_compile(stmt, ".{};"))
         out_var = vars.get(self)
+
+        add_indent = lambda s: f"{' '*indent}{s}"
+        indented_substmts = map(add_indent, substmts)
         if out_var is None:
-            return f"({' '.join(substmts)});"
-        return f"({' '.join(substmts)})->.{out_var};"
+            return ["(", *indented_substmts, ");"]
+        return ["(", *indented_substmts, f")->.{out_var};"]
 
 
 class Difference(Combination):

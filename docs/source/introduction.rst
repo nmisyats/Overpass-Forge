@@ -39,8 +39,8 @@ which are at most 100m away from a bus stop node:
     result = ways + nodes
     result.out("meta")
 
-    query = build(result)
-    print(beautify(query))
+    query = build(result, beautify=True)
+    print(query)
 
 Output:
 

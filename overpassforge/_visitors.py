@@ -149,27 +149,46 @@ class Compiler(Visitor):
     Compiles a statement: builds a sequence of string that once
     concatenated represents the compiled statement's query string.
     """
-    def __init__(self, root: Statement, deps: dict[Statement, Dependency]) -> None:
+
+    def __init__(
+            self,
+            root: Statement,
+            deps: dict[Statement, Dependency],
+            beautify: bool = False
+        ) -> None:
         super().__init__()
 
         self.root = root
         self.deps = deps
-        self.variables = VariableManager()
+        self.vars = VariableManager()
         self.sequence: list[str] = []
+        
+        self.indent = 0
+
+        if beautify:
+            self._compile = self._compile_beautify
+        else:
+            self._compile = self._compile_compact
+    
+    def _compile_compact(self, stmt: Statement) -> str:
+        return stmt._compile(self.vars)
+    
+    def _compile_beautify(self, stmt: Statement) -> str:
+        ls = stmt._compile_lines(self.vars, 2)
+        return "\n".join(ls)
     
     def visit_statement_post(self, statement: Statement):
         # Other statement that can be inlined are automatically
         # handled in each statement's compilation
 
         if statement == self.root:
-            self.sequence.append(statement._compile(self.variables))
+            self.sequence.append(self._compile(statement))
         elif not self.deps[statement].can_inline:
-            self.variables.add_statement(statement)
-            compiled = statement._compile(self.variables)
-            self.sequence.append(compiled)
+            self.vars.add_statement(statement)
+            self.sequence.append(self._compile(statement))
         
         if isinstance(statement, Set) and len(statement.out_options) > 0:
-            self.sequence.append(statement._output(self.variables))
+            self.sequence.append(statement._output(self.vars))
 
 
 def traverse_statement(statement: Statement, visitor: Visitor):

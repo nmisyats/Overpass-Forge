@@ -1,4 +1,4 @@
-from overpassforge import Areas, Nodes, beautify, build
+from overpassforge import Areas, Nodes, build
 
 sf = Areas(name="San Francisco")
 bike_rental = Nodes(within=sf).where(amenity="bicycle_rental")
@@ -8,4 +8,4 @@ result = stations + filtered
 result.out("meta")
 
 query = build(result)
-print(beautify(query))
+print(query)
