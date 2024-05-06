@@ -31,7 +31,7 @@ which are at most 100m away from a bus stop node:
 
 .. code-block:: python
 
-    from overpassforge import Areas, Nodes, Ways, build, beautify
+    from overpassforge import Areas, Nodes, Ways, build
 
     bus_stops = Nodes(within=Areas(name="Bonn"), highway="bus_stop")
     ways = Ways(around=(bus_stops, 100.0)).where(amenity="cinema")

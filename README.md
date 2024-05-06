@@ -19,7 +19,7 @@ pip install overpassforge
 ## Example
 
 ```python
-from overpassforge import Areas, Nodes, Ways, build, beautify
+from overpassforge import Areas, Nodes, Ways, build
 
 # Find both cinema nodes and ways in Bonn, which
 # are at most 100m away from bus stop nodes
