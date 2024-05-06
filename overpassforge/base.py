@@ -26,7 +26,11 @@ if TYPE_CHECKING:
         RecurseDown,
         RecurseDownRels,
         RecurseUp,
-        RecurseUpRels
+        RecurseUpRels,
+        Elements,
+        Nodes,
+        Ways,
+        Relations
     )
 
 
@@ -282,3 +286,28 @@ class Set(Statement):
         """
         from .statements import OverlappingAreas
         return OverlappingAreas(input_set=self)
+    
+    def elements(self, *filters: Filter) -> 'Elements':
+        """Returns the elements (nodes, ways, relations) in this set."""
+        from .statements import Elements
+        return Elements(filters=[Intersect(self), *filters])
+
+    def nodes(self, *filters: Filter) -> 'Nodes':
+        """Returns the nodes in this set."""
+        from .statements import Nodes
+        return Nodes(filters=[Intersect(self), *filters])
+    
+    def ways(self, *filters: Filter) -> 'Ways':
+        """Returns the ways in this set."""
+        from .statements import Ways
+        return Ways(filters=[Intersect(self), *filters])
+    
+    def relations(self, *filters: Filter) -> 'Relations':
+        """Returns the relations in this set."""
+        from .statements import Relations
+        return Relations(filters=[Intersect(self), *filters])
+    
+    def areas(self, *filters: Filter) -> 'Areas':
+        """Returns the areas in this set."""
+        from .statements import Areas
+        return Areas(filters=[Intersect(self), *filters])

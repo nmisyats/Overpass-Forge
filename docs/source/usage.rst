@@ -86,7 +86,7 @@ areas via specific methods. The above query can also be written:
 
 .. code-block:: python
 
-    Areas(name="Paris").nodes(Key("amenity"), Changed(datetime(2017, 11, 19))
+    Areas(name="Paris").nodes_within(Key("amenity"), Changed(datetime(2017, 11, 19))
 
 
 To query any elements (nodes, ways and relations), use the base ``Elements`` class:

@@ -12,19 +12,19 @@ def paris_area():
 
 def test_area_elements(paris_area: tuple[Areas, VariableManager]):
     a, vars = paris_area
-    assert a.elements()._compile(vars) == "nwr(area.a);"
+    assert a.elements_within()._compile(vars) == "nwr(area.a);"
 
 def test_area_nodes(paris_area: tuple[Areas, VariableManager]):
     a, vars = paris_area
-    assert a.nodes()._compile(vars) == "node(area.a);"
+    assert a.nodes_within()._compile(vars) == "node(area.a);"
 
 def test_area_ways(paris_area: tuple[Areas, VariableManager]):
     a, vars = paris_area
-    assert a.ways()._compile(vars) == "way(area.a);"
+    assert a.ways_within()._compile(vars) == "way(area.a);"
 
 def test_area_realtions(paris_area: tuple[Areas, VariableManager]):
     a, vars = paris_area
-    assert a.relations()._compile(vars) == "rel(area.a);"
+    assert a.relations_within()._compile(vars) == "rel(area.a);"
 
 def test_aera_outline(paris_area: tuple[Areas, VariableManager]):
     a, vars = paris_area

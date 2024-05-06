@@ -6,11 +6,13 @@
 
 - Explicit listing of symbols imported with `import *`.
 - `outline` method in `Areas`.
+- Added `elements`, `nodes`, `relations` and `areas` selectors in `Set`.
 
 ### Changed
 
 - Beautification of compiled query now specified as a compile option
   rather than separate function.
+- Renamed `<elements>` method in `Areas` to `<elements>_within`.
 
 ### Fixed
 
