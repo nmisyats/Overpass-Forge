@@ -17,7 +17,7 @@ def test_with_settings():
     a = Nodes(ids=128)
     b = Nodes(bounding_box=(42.0, 43.0, 44.0, 45.0))
     u1 = Union(a, b)
-    assert build(u1, Settings()) == \
+    assert build(u1, settings=Settings()) == \
         """[out:json][timeout:25];\n""" \
         """(node(128); node(42.0,43.0,44.0,45.0););"""
 

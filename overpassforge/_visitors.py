@@ -71,6 +71,9 @@ class Dependency:
         if isinstance(self.statement, Set):
             can = can and len(self.statement.out_options) == 0
         return can
+    
+    def __hash__(self):
+        return hash(self.statement)
 
 class DependencyRetriever(Visitor):
     """

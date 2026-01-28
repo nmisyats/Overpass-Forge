@@ -80,7 +80,11 @@ class Settings:
 
 
 
-def build(statement: Statement, settings: Settings | None = None, beautify: bool = False) -> str:
+def build(
+        *statements: Statement,
+        settings: Settings | None = None,
+        beautify: bool = False
+    ) -> str:
     """Builds the Overpass query string of the given statement, with
     the optional global settings.
 
@@ -98,17 +102,38 @@ def build(statement: Statement, settings: Settings | None = None, beautify: bool
         InvalidQuerySettings: Invalid query settings.
         UnexpectedCompilationError: Unexpected internal compilation error.
     """
-    statement = copy.deepcopy(statement)
-    _traverse(statement, _CycleDetector())
-    _traverse(statement, _CombinationOptimizer())
-    dependencies = _DependencyRetriever()
-    _traverse(statement, dependencies)
-    _traverse(statement, _FilterChainSimplifier(dependencies.deps))
+    all_stmts = list(statements)
 
-    compiler = _Compiler(statement, dependencies.deps, beautify)
-    _traverse(statement, compiler)
+    all_deps = []
+    for stmt in all_stmts:
+        dep_retriever = _DependencyRetriever()
+        _traverse(stmt, dep_retriever)
+        all_deps.append(dep_retriever.deps)
+    
+    minimal_stmts = []
+    for i, a in enumerate(all_stmts):
+        is_dep = False
+        for j, b in enumerate(all_stmts):
+            if i != j and a in all_deps[j]:
+                is_dep = True
+                break
+        if not is_dep:
+            minimal_stmts.append(i)
 
-    core_query = "\n".join(compiler.sequence)
+    queries = []
+    for i in minimal_stmts:
+        stmt = copy.deepcopy(all_stmts[i])
+        _traverse(stmt, _CycleDetector())
+        _traverse(stmt, _CombinationOptimizer())
+        dep_retriever = _DependencyRetriever()
+        _traverse(stmt, dep_retriever)
+        _traverse(stmt, _FilterChainSimplifier(dep_retriever.deps))
+
+        compiler = _Compiler(stmt, dep_retriever.deps, beautify)
+        _traverse(stmt, compiler)
+        queries.append("\n".join(compiler.sequence))
+
+    core_query = "\n".join(queries)
     if settings is not None:
         return f"{settings._compile()}\n{core_query}"
     return core_query
