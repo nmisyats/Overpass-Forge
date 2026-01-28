@@ -7,6 +7,7 @@
 - Explicit listing of symbols imported with `import *`.
 - `outline` method in `Areas`.
 - Added `elements`, `nodes`, `relations` and `areas` selectors in `Set`.
+- `build` can compile multiple (dependant) output statements at once.
 
 ### Changed
 
